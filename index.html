@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Oyster Bay Pinot Gris | Redesigned Course Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15323d; --ocean:#0F5AA0; --ocean-deep:#0B3F73; --gold:#E7B43B; --gold-deep:#9A7415;
+    --sky:#CFE6F4; --paper:#fff; --mist:#EEF4F8; --line:#DCE6ED; --muted:#5C7282;
+    --good:#1d8a5b; --serif:'Cormorant Garamond',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+    --wf:#E4ECF2; --wf2:#D2DFE9; --wf-accent:#Bcd6ec;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--mist);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  /* sticky header */
+  header{position:sticky;top:0;z-index:50;background:rgba(238,244,248,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .hbar{max-width:1080px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .hbrand{display:flex;flex-direction:column;line-height:1}
+  .hbrand .wm{font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:.4px;color:var(--ocean-deep)}
+  .hbrand .sub{font-size:9.5px;letter-spacing:3px;color:var(--muted);margin-top:3px}
+  .toggle{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted);cursor:pointer;user-select:none}
+  .toggle b{color:var(--ink);font-weight:500;transition:.25s}
+  .toggle.on b.t1{color:var(--muted)} .toggle b.t2{color:var(--muted)} .toggle.on b.t2{color:var(--ocean-deep)}
+  .sw{position:relative;width:42px;height:22px;background:#c7d7e3;border-radius:20px;transition:.25s;flex:none}
+  .sw::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.25s}
+  .toggle.on .sw{background:var(--gold)} .toggle.on .sw::after{transform:translateX(20px)}
+  /* reveal */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  /* hero */
+  .hero{padding:84px 0 60px;text-align:center}
+  .eyebrow{text-transform:uppercase;letter-spacing:3px;font-size:12px;font-weight:600;color:var(--ocean)}
+  .hero h1{font-family:var(--serif);font-weight:700;font-size:62px;line-height:1.04;margin:16px 0 6px;color:var(--ink)}
+  .gline{width:60px;height:4px;background:var(--gold);margin:22px auto;border-radius:2px;transform:scaleX(0);transform-origin:center;transition:transform .9s .3s ease}
+  .gline.in{transform:scaleX(1)}
+  .hero p{font-size:19px;color:#3c5260;max-width:60ch;margin:0 auto;line-height:1.6}
+  .hero .scrollcue{margin-top:44px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+  /* section shell */
+  section.block{padding:54px 0}
+  .shead{text-align:center;margin-bottom:40px}
+  .shead .eyebrow{color:var(--ocean)}
+  .shead h2{font-family:var(--serif);font-weight:600;font-size:40px;margin:10px 0 8px;color:var(--ink)}
+  .shead p{font-size:16.5px;color:#3c5260;max-width:62ch;margin:0 auto}
+  /* the shift (before/after rails) */
+  .rails{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .rail{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px}
+  .rail.before{opacity:.92}
+  .rail h3{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 4px}
+  .rail.before h3{color:var(--muted)} .rail.after h3{color:var(--ocean)}
+  .rail .lead{font-family:var(--serif);font-size:22px;line-height:1.3;margin:0 0 18px;color:var(--ink)}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .node{font-size:12px;padding:6px 12px;border-radius:20px;font-weight:500;white-space:nowrap}
+  .before .node{background:#EEF2F5;color:#647884}
+  .after .node{background:var(--sky);color:var(--ocean-deep)}
+  .after .node.peak{background:var(--ocean);color:#fff}
+  .arrow{color:#bcccd6;font-size:13px}
+  .railmeta{display:flex;gap:24px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+  .stat .num{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--ocean-deep);line-height:1}
+  .rail.before .stat .num{color:var(--muted)}
+  .stat .lbl{font-size:11.5px;color:var(--muted);margin-top:4px}
+  /* bloom ladder */
+  .bloom{display:flex;align-items:flex-end;gap:10px;height:120px;margin-top:8px}
+  .brung{flex:1;background:var(--sky);border-radius:8px 8px 0 0;display:flex;align-items:flex-start;justify-content:center;padding-top:8px;font-size:11px;color:var(--ocean-deep);font-weight:500;height:0;transition:height 1s cubic-bezier(.2,.7,.2,1)}
+  .brung.peak{background:var(--ocean);color:#fff}
+  /* journey spine */
+  .journey{position:relative;margin-top:10px}
+  .spine{position:absolute;left:31px;top:8px;bottom:8px;width:3px;background:var(--line);border-radius:2px}
+  .spine i{position:absolute;left:0;top:0;width:100%;height:0;background:var(--gold);border-radius:2px;transition:height .15s linear}
+  .mod{position:relative;display:grid;grid-template-columns:64px 200px 1fr;gap:22px;align-items:start;padding:18px 0 30px}
+  .mnum{width:64px;display:flex;justify-content:center}
+  .mnum span{width:48px;height:48px;border-radius:50%;background:var(--paper);border:3px solid var(--gold);color:var(--ocean-deep);font-family:var(--serif);font-weight:700;font-size:21px;display:flex;align-items:center;justify-content:center;z-index:2}
+  .mod.built .mnum span{background:var(--ocean);border-color:var(--ocean);color:#fff}
+  /* wireframe sketch */
+  .wf{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:0 8px 24px -18px rgba(11,63,115,.4)}
+  .wf .wftop{height:9px;background:var(--ocean-deep);border-radius:4px;margin:-2px -2px 9px;opacity:.85}
+  .wb{background:var(--wf);border-radius:5px;margin-bottom:6px}
+  .wb.t{height:9px;width:62%} .wb.t2{height:7px;width:42%}
+  .wb.img{height:34px;background:var(--wf2)}
+  .wb.banner{height:16px;background:var(--wf-accent)}
+  .wb.line{height:6px} .wb.line.s{width:80%} .wb.line.xs{width:55%}
+  .wb.card{height:24px}
+  .wbrow{display:flex;gap:6px} .wbrow .wb{flex:1}
+  .wb.choice{height:14px;border:1px solid var(--wf2);background:#fff}
+  .wb.choice.ok{border-color:#9fd8bb;background:#eef8f2}
+  .wb.btn{height:13px;width:46%;background:var(--ocean);opacity:.7}
+  .wb.gold{background:var(--gold);opacity:.55}
+  .wb.dash{border:1px dashed var(--ocean);background:#f3f9fd;height:22px}
+  .wcols{display:flex;gap:6px} .wcols>div{flex:1}
+  .dial{width:30px;height:30px;border-radius:50%;border:4px solid var(--wf2);border-top-color:var(--ocean);margin:4px auto 0}
+  .wtag{font-size:9px;color:var(--muted);text-align:right;margin-top:2px;letter-spacing:.5px}
+  /* module content */
+  .mc h3{font-family:var(--serif);font-size:25px;font-weight:600;margin:0 0 2px;color:var(--ink);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .builtbadge{font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;background:var(--ocean);color:#fff;padding:3px 9px;border-radius:20px}
+  .mc .obj{font-size:15.5px;color:#3c5260;margin:4px 0 12px;max-width:54ch}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .ibadge{font-size:11.5px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 12px;display:inline-flex;gap:6px;align-items:center}
+  .ibadge i{width:5px;height:5px;border-radius:50%;background:var(--ocean);display:inline-block}
+  .tpill{font-size:11.5px;font-weight:600;color:var(--gold-deep);background:#FFF6E2;border:1px solid #F0DCA8;border-radius:20px;padding:4px 12px;cursor:default}
+  .twhy{margin-top:0;max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin-top .4s ease}
+  body.theory .twhy{max-height:160px;opacity:1;margin-top:12px}
+  .twhy .inner{border-left:3px solid var(--gold);background:#FFFCF4;border-radius:0 10px 10px 0;padding:11px 15px;font-size:13.5px;line-height:1.6;color:#4a5e6a}
+  .twhy .inner b{color:var(--gold-deep);font-weight:600}
+  body.theory .mod{}
+  body:not(.theory) .wf{opacity:1} body.theory .wf{opacity:.6;transition:opacity .4s ease}
+  /* framework cards */
+  .fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .fcard{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;transition:transform .3s ease,box-shadow .3s ease}
+  .fcard:hover{transform:translateY(-4px);box-shadow:0 16px 36px -24px rgba(11,63,115,.5)}
+  .fcard .ic{width:42px;height:42px;border-radius:12px;background:var(--sky);color:var(--ocean-deep);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:20px;margin-bottom:13px}
+  .fcard h4{font-size:16px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+  .fcard p{font-size:13.5px;color:#4a5e6a;margin:0;line-height:1.6}
+  .fcard .src{font-size:11px;color:var(--muted);margin-top:9px;font-style:italic}
+  /* closing */
+  .closing{text-align:center;padding:64px 0 28px}
+  .closing .q{font-family:var(--serif);font-size:32px;line-height:1.3;color:var(--ink);max-width:24ch;margin:0 auto 10px}
+  .closing .q span{color:var(--ocean)}
+  .foot{text-align:center;padding:22px 0 64px;color:var(--muted);font-size:12.5px}
+  @media(max-width:860px){
+    .hero h1{font-size:42px}.rails,.fgrid{grid-template-columns:1fr}
+    .mod{grid-template-columns:46px 1fr;gap:14px}.mod .wf{display:none}
+    .spine{left:22px}.mnum{width:46px}.mnum span{width:40px;height:40px;font-size:18px}
+  }
+</style>
+</head>
+<body>
+<h1 class="sr-only">Redesigned Oyster Bay Pinot Gris course blueprint: a wireframe of every module annotated with the learning-science principle it applies.</h1>
+
+<header>
+  <div class="hbar">
+    <div class="hbrand"><span class="wm">Oyster Bay</span><span class="sub">PINOT GRIS &#183; COURSE BLUEPRINT</span></div>
+    <label class="toggle" id="modeToggle" title="Foreground the learning science behind each module">
+      <b class="t1">Blueprint</b><span class="sw"></span><b class="t2">Learning science</b>
+    </label>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow rv">The redesigned course</div>
+    <h1 class="rv">Built on learning science,<br>not just good looks.</h1>
+    <div class="gline" id="gline"></div>
+    <p class="rv">A blueprint for the rebuilt Oyster Bay Pinot Gris course. Every module is sketched as a wireframe and tagged with the principle that earns its place. Flip <b style="color:var(--ocean-deep)">Learning science</b> on, top right, to see the thinking behind each screen.</p>
+    <div class="scrollcue rv">Scroll &#8595;</div>
+  </div>
+
+  <!-- THE SHIFT -->
+  <section class="block">
+    <div class="shead rv">
+      <div class="eyebrow">The shift</div>
+      <h2>From a brochure to a behavior.</h2>
+      <p>The current course moves reps through facts and tests them once at the end. The redesign moves them from knowing about the wine to being able to sell it.</p>
+    </div>
+    <div class="rails">
+      <div class="rail before rv">
+        <h3>Today</h3>
+        <p class="lead">A linear read, then one quiz.</p>
+        <div class="flow">
+          <span class="node">Read</span><span class="arrow">&#8594;</span>
+          <span class="node">Click</span><span class="arrow">&#8594;</span>
+          <span class="node">Read</span><span class="arrow">&#8594;</span>
+          <span class="node">Click</span><span class="arrow">&#8594;</span>
+          <span class="node">Recall quiz</span>
+        </div>
+        <div class="railmeta">
+          <div class="stat"><div class="num">1</div><div class="lbl">interaction type (click to reveal)</div></div>
+          <div class="stat"><div class="num">Recall</div><div class="lbl">highest level tested</div></div>
+          <div class="stat"><div class="num">0</div><div class="lbl">decisions or practice in the lessons</div></div>
+        </div>
+      </div>
+      <div class="rail after rv">
+        <h3>Redesigned</h3>
+        <p class="lead">A rehearsed path to the sale.</p>
+        <div class="flow">
+          <span class="node">Why it matters</span><span class="arrow">&#8594;</span>
+          <span class="node">Say it</span><span class="arrow">&#8594;</span>
+          <span class="node">Decide</span><span class="arrow">&#8594;</span>
+          <span class="node">Handle pushback</span><span class="arrow">&#8594;</span>
+          <span class="node peak">Sell it</span>
+        </div>
+        <div class="railmeta">
+          <div class="stat"><div class="num">9</div><div class="lbl">modules, each with a task</div></div>
+          <div class="stat"><div class="num">Apply</div><div class="lbl">level the course reaches</div></div>
+          <div class="stat"><div class="num">2</div><div class="lbl">spaced boosters after</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOOM LADDER -->
+  <section class="block">
+    <div class="shead rv">
+      <div class="eyebrow">Raising the ceiling</div>
+      <h2>Climbing from recall to selling.</h2>
+      <p>The old course stopped at remembering facts. The redesign carries reps up the ladder to applying them in a real conversation.</p>
+    </div>
+    <div class="rv" style="max-width:560px;margin:0 auto">
+      <div class="bloom" id="bloom">
+        <div class="brung" data-h="34">Remember</div>
+        <div class="brung" data-h="58">Understand</div>
+        <div class="brung" data-h="84">Apply</div>
+        <div class="brung peak" data-h="118">Sell on the floor</div>
+      </div>
+      <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:14px">Old course reached the first rung. The redesign reaches the last.</p>
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section class="block">
+    <div class="shead rv">
+      <div class="eyebrow">The learner journey</div>
+      <h2>Nine modules, re-sequenced around the sale.</h2>
+      <p>Each card is a wireframe sketch of that module. The gold tag names the learning-science principle that earns its place. Turn on Learning science to read why.</p>
+    </div>
+    <div class="journey" id="journey">
+      <div class="spine"><i id="spinefill"></i></div>
+      <div id="mods"></div>
+    </div>
+  </section>
+
+  <!-- FRAMEWORK -->
+  <section class="block">
+    <div class="shead rv">
+      <div class="eyebrow">The throughline</div>
+      <h2>Six principles holding it together.</h2>
+      <p>The same evidence base runs under every module. This is the rigor that wins the work, made visible.</p>
+    </div>
+    <div class="fgrid" id="frame"></div>
+  </section>
+
+  <!-- CLOSING -->
+  <div class="closing rv">
+    <p class="q">The course no longer teaches reps about the wine.<br>It teaches them to <span>sell it.</span></p>
+  </div>
+  <div class="foot">Course blueprint by Small Circle &#183; rebuilt from the existing Oyster Bay Pinot Gris course. Module 4 is built as a working demo.</div>
+
+</div>
+
+<script>
+(function(){
+  var MODS = [
+    {n:1,title:"Start here: why this matters",obj:"Know why this wine is worth your 15 minutes, and your customer's attention.",inter:"Orientation: objectives + what's in it for me",pill:"Andragogy &amp; ARCS",why:"Adults engage once they know the payoff. Stating the outcomes up front (an <b>advance organizer</b>) frames everything that follows and stops reps skimming.",wf:"orient"},
+    {n:2,title:"Your three things to say",obj:"Walk away able to say the three lines that actually sell this wine.",inter:"Front-loaded core pitch + retrieval target",pill:"Primacy &amp; retrieval",why:"Putting the destination first gives the brain a <b>hook to retrieve toward</b>. Everything after reinforces the same three lines instead of competing for attention.",wf:"pitch3"},
+    {n:3,title:"Taste it, say it",obj:"Describe the wine in one vivid, repeatable line.",inter:"Narrated tasting story + say-it-aloud rehearsal",pill:"Modality &amp; rehearsal",why:"Pairing the visual with a <b>spoken model</b> (Mayer's modality principle), then rehearsing aloud, encodes the line the way it has to come out: spoken, to a buyer.",wf:"taste"},
+    {n:4,title:"Gris vs Grigio: know the difference",obj:"Answer the number one customer question and trade a Grigio drinker up.",inter:"Comparison + decision + branching trade-up",pill:"Generation effect",why:"Making the rep <b>decide</b> instead of revealing a fact encodes far better, and a side-by-side model beats isolated facts. This is the lesson we built as the demo.",wf:"compare",built:true},
+    {n:5,title:"Why it sells, by role",obj:"Bring the right reason to the right buyer.",inter:"Role split (why stock vs why pour) + sortable proof",pill:"Relevance &amp; segmenting",why:"A retail category pitch and a by-the-glass pitch are <b>different jobs</b>. Separating them prevents cognitive overload and stops reps bringing the wrong argument.",wf:"rolesplit"},
+    {n:6,title:"How it's made",obj:"Add credibility with the one or two production facts a buyer cares about.",inter:"Optional deep-dive, demoted to supporting depth",pill:"Coherence principle",why:"Demote, do not delete. Keeping the craft story as <b>optional depth</b> means it supports the sell instead of burying it, which is what it did at lesson four of eight.",wf:"process"},
+    {n:7,title:"Handle the pushback",obj:"Turn the four objections you actually hear into easy yeses.",inter:"Branching objection scenarios with consequences",pill:"Scenario-based learning",why:"The <b>highest-transfer interaction</b> for sales: rehearse the exact moment the sale turns, in context, so the first time is not live in front of a buyer.",wf:"scenario"},
+    {n:8,title:"Prove it",obj:"Show you can sell it, not just recall it.",inter:"Application-weighted, randomized exam bank + remediation",pill:"Testing &amp; alignment",why:"Retrieval builds durable memory (the <b>testing effect</b>), and the exam mirrors the selling objectives, weighted to application, so passing means ready, not lucky.",wf:"quiz"},
+    {n:9,title:"Take it to the floor",obj:"Leave with a line, a plan, and a nudge.",inter:"Commitment + spaced boosters at one and three weeks",pill:"Transfer &amp; spacing",why:"A <b>specific commitment</b> plus <b>spaced refreshers</b> beats a single exposure that fades within days. This is where training turns into selling.",wf:"commit"}
+  ];
+
+  function wf(type){
+    var t={
+      orient:'<div class="wftop"></div><div class="wb t"></div><div class="wb t2"></div><div class="wb line s" style="margin-top:9px"></div><div class="wb choice"></div><div class="wb choice"></div><div class="wb choice"></div><div class="wtag">objectives</div>',
+      pitch3:'<div class="wftop"></div><div class="wb t2"></div><div class="wb card"></div><div class="wb card"></div><div class="wb card"></div><div class="wtag">3 say-this cards</div>',
+      taste:'<div class="wftop"></div><div class="wb t2"></div><div class="wb img"></div><div class="wbrow"><div class="wb btn gold" style="width:100%"></div></div><div class="wb line s" style="margin-top:7px"></div><div class="wtag">pitch + audio</div>',
+      compare:'<div class="wftop"></div><div class="wb banner"></div><div class="wcols"><div class="wb card"></div><div class="wb card"></div></div><div class="wb choice ok" style="margin-top:7px"></div><div class="wb choice"></div><div class="wtag">compare + decide</div>',
+      rolesplit:'<div class="wftop"></div><div class="wbrow"><div class="wb btn" style="width:100%;opacity:.55"></div><div class="wb btn gold" style="width:100%"></div></div><div class="wbrow" style="margin-top:7px"><div class="wb t" style="width:100%;height:13px"></div><div class="wb t" style="width:100%;height:13px"></div></div><div class="wbrow"><div class="wb t" style="width:100%;height:13px"></div><div class="wb t" style="width:100%;height:13px"></div></div><div class="wtag">two roles</div>',
+      process:'<div class="wftop"></div><div class="wb img"></div><div class="wb line s"></div><div class="wb line xs"></div><div class="wb line s"></div><div class="wtag">optional depth</div>',
+      scenario:'<div class="wftop"></div><div class="wb banner"></div><div class="wb card" style="height:30px;background:var(--sky)"></div><div class="wbrow" style="margin-top:7px"><div class="wb choice" style="height:16px"></div><div class="wb choice ok" style="height:16px"></div></div><div class="wtag">branch</div>',
+      quiz:'<div class="wftop"></div><div class="wb t"></div><div class="wb choice"></div><div class="wb choice ok"></div><div class="wb choice"></div><div class="dial"></div><div class="wtag">apply + score</div>',
+      commit:'<div class="wftop"></div><div class="wb dash"></div><div class="wbrow" style="align-items:center;margin-top:8px"><div class="wb" style="width:13px;height:13px;flex:none;margin:0"></div><div class="wb line s" style="margin:0"></div></div><div class="wbrow" style="gap:8px;margin-top:10px"><div class="wb gold" style="width:11px;height:11px;border-radius:50%;flex:none;margin:0"></div><div class="wb gold" style="width:11px;height:11px;border-radius:50%;flex:none;margin:0"></div><div class="wb" style="width:11px;height:11px;border-radius:50%;flex:none;margin:0"></div></div><div class="wtag">commit + boosters</div>'
+    };
+    return t[type]||'';
+  }
+
+  var html='';
+  MODS.forEach(function(m){
+    html+='<div class="mod rv'+(m.built?' built':'')+'">'+
+      '<div class="mnum"><span>'+m.n+'</span></div>'+
+      '<div class="wf">'+wf(m.wf)+'</div>'+
+      '<div class="mc">'+
+        '<h3>'+m.title+(m.built?'<span class="builtbadge">Built &#183; see demo</span>':'')+'</h3>'+
+        '<p class="obj">'+m.obj+'</p>'+
+        '<div class="badges"><span class="ibadge"><i></i>'+m.inter+'</span><span class="tpill">'+m.pill+'</span></div>'+
+        '<div class="twhy"><div class="inner">'+m.why+'</div></div>'+
+      '</div>'+
+    '</div>';
+  });
+  document.getElementById('mods').innerHTML=html;
+
+  var FRAME=[
+    {ic:'A',h:'Andragogy',p:'Adults need to know why before they invest. Every module leads with relevance to the rep and the customer.',s:'Knowles; Keller ARCS'},
+    {ic:'C',h:'Cognitive load',p:'Chunk content, pair visuals with spoken words, and never stack confusable facts on one screen.',s:'Mayer; Sweller'},
+    {ic:'G',h:'Generation &amp; retrieval',p:'Reps decide and produce answers rather than reveal them. Retrieval, not re-reading, makes it stick.',s:'Testing effect'},
+    {ic:'S',h:'Spacing',p:'Short boosters at one and three weeks keep the pitch alive long after the course ends.',s:'Distributed practice'},
+    {ic:'R',h:'Scenario-based learning',p:'The buyer conversation is rehearsed in the course, the single highest-transfer activity for sales.',s:'Transfer of training'},
+    {ic:'B',h:'Constructive alignment',p:'Objectives, content, and the exam all point at the same selling outcomes, at the right cognitive level.',s:'Biggs; Bloom'}
+  ];
+  var fh='';
+  FRAME.forEach(function(f){
+    fh+='<div class="fcard rv"><div class="ic">'+f.ic+'</div><h4>'+f.h+'</h4><p>'+f.p+'</p><div class="src">'+f.s+'</div></div>';
+  });
+  document.getElementById('frame').innerHTML=fh;
+
+  // reveal on scroll
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+  // hero line + first reveals
+  requestAnimationFrame(function(){
+    document.querySelectorAll('.hero .rv').forEach(function(el){el.classList.add('in');});
+    document.getElementById('gline').classList.add('in');
+  });
+
+  // bloom ladder fill when visible
+  var bloom=document.getElementById('bloom');
+  var bio=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){
+      Array.prototype.forEach.call(bloom.children,function(b,i){
+        setTimeout(function(){ b.style.height=b.getAttribute('data-h')+'px'; }, i*160);
+      });
+      bio.disconnect();
+    }});
+  },{threshold:.5});
+  bio.observe(bloom);
+
+  // spine fill tied to scroll over journey
+  var journey=document.getElementById('journey');
+  var fill=document.getElementById('spinefill');
+  function onScroll(){
+    var r=journey.getBoundingClientRect();
+    var vh=window.innerHeight;
+    var total=r.height;
+    var seen=Math.min(Math.max(vh*0.5 - r.top,0),total);
+    fill.style.height=(total>0?(seen/total*100):0)+'%';
+  }
+  var ticking=false;
+  window.addEventListener('scroll',function(){ if(!ticking){requestAnimationFrame(function(){onScroll();ticking=false;});ticking=true;} },{passive:true});
+  window.addEventListener('resize',onScroll); onScroll();
+
+  // mode toggle
+  var mt=document.getElementById('modeToggle');
+  mt.addEventListener('click',function(){
+    mt.classList.toggle('on');
+    document.body.classList.toggle('theory', mt.classList.contains('on'));
+    setTimeout(onScroll,60);
+  });
+})();
+</script>
+</body>
+</html>
